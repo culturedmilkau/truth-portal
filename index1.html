@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Truth-Telling Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --primary: #A0522D;   /* Clay */
+      --secondary: #7BAE7F; /* Eucalyptus */
+      --accent: #C19A6B;    /* Ochre */
+      --offwhite: #F5F5DC;
+    }
+    body { background: var(--offwhite); }
+  </style>
+</head>
+<body class="text-gray-900">
+  <!-- Header -->
+  <header class="bg-green-900 text-white text-center py-6">
+    <h1 class="text-4xl font-bold">Truth-Telling Portal</h1>
+    <p class="text-lg">A safe space to share lived experiences and build systemic awareness</p>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-3xl mx-auto p-6 space-y-10">
+    <!-- Colonial Impact -->
+    <section>
+      <h2 class="text-3xl font-bold text-center mb-4" style="color:var(--primary)">
+        Colonial Impact & Systemic Gaps
+      </h2>
+      <p class="mb-4">Colonial policies displaced communities, banned languages, and entrenched systemic racism,
+        resulting in <strong>2.5× higher hospitalisation rates</strong> for Indigenous Australians compared to
+        non‑Indigenous populations.</p>
+      <p>First Nations women are <strong>3–5× more likely</strong> to die from pregnancy-related causes, with their babies
+        twice as likely to be preterm or low birthweight.</p>
+    </section>
+
+    <!-- Tolerance ≠ Inclusion -->
+    <section>
+      <h2 class="text-3xl font-bold text-center mb-4" style="color:var(--primary)">
+        Tolerance ≠ Inclusion
+      </h2>
+      <p><strong>Tolerance</strong> means allowing difference to exist without integrating it—often resulting in coercive
+        interventions, racial profiling, and breaches of consent. <br>
+        <strong>Inclusion</strong> means co-designing systems with communities, embedding cultural governance,
+        relational continuity of care, and workforce representation.</p>
+    </section>
+
+    <!-- Gold-Standard Relational Models -->
+    <section>
+      <h2 class="text-3xl font-bold text-center mb-4" style="color:var(--primary)">
+        Gold-Standard Relational Models
+      </h2>
+      <p>Birthing on Country and community-led maternity services increased access to gold-standard culturally safe care
+        <strong>21-fold</strong>, reducing preterm birth by ~40%. These models cut child protection removals by ~50% and
+        improved antenatal engagement and breastfeeding rates.</p>
+    </section>
+
+    <!-- Why We Lack Access -->
+    <section>
+      <h2 class="text-3xl font-bold text-center mb-4" style="color:var(--primary)">
+        Why We Lack Access
+      </h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Underinvestment in public hospitals, with private care delivering safer outcomes due to specialist access.</li>
+        <li>Shortage of Indigenous midwives and modular workforce gaps in remote settings.</li>
+        <li>Structural and cultural safety barriers eroding trust and leading to underutilisation.</li>
+      </ul>
+    </section>
+
+    <!-- Download Templates -->
+    <section class="bg-white rounded-lg shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4" style="color:var(--primary)">Download Templates</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><a href="witness-template.pdf" class="text-blue-700 underline">Witness Template (PDF)</a></li>
+        <li><a href="Impact%20Summary%20Placeholder.docx" class="text-blue-700 underline">Impact Summary (DOCX)</a></li>
+      </ul>
+    </section>
+
+    <!-- Truth-Telling Form -->
+    <section class="bg-white rounded-lg shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4" style="color:var(--primary)">Share Your Truth</h2>
+      <textarea id="truthDescription" class="border rounded w-full h-40 p-2" placeholder="Write or speak your experience..."></textarea>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <button type="button" id="voiceButton" class="px-4 py-2 rounded text-white" style="background:var(--accent)">🎤 Speak</button>
+        <button id="downloadPDF" class="px-4 py-2 rounded text-white" style="background:var(--primary)">Download PDF</button>
+        <a href="https://secureform.example.com" target="_blank" class="px-4 py-2 rounded text-white" style="background:var(--secondary)">
+          Submit Online
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script>
+    // PDF download
+    document.getElementById('downloadPDF').addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const text = document.getElementById('truthDescription').value;
+      doc.text("My Truth:\\n" + text, 10, 10);
+      doc.save('my-truth.pdf');
+    });
+
+    // Voice-to-text
+    const voiceButton = document.getElementById('voiceButton');
+    const truthDescription = document.getElementById('truthDescription');
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+      voiceButton.addEventListener('click', () => recognition.start());
+      recognition.onresult = (event) => {
+        truthDescription.value += " " + event.results[0][0].transcript;
+      };
+    } else {
+      voiceButton.disabled = true;
+      voiceButton.innerText = "Voice Not Supported";
+    }
+  </script>
+</body>
+</html>
